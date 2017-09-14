@@ -42,11 +42,9 @@
       loadNews () {
         this.error = this.post = null
         this.loading = true
-        // замените здесь `getPost` используемым методом получения данных / доступа к API
         axios.get('/news')
           .then((response) => {
             this.loading = false
-            console.log(response.data)
             const data = response.data
             this.post = data
           })

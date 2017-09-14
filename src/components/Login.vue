@@ -7,23 +7,42 @@
     <input ref="password_input" type="password" id="password_login" placeholder="password">
 
     <input type="submit" v-on:click="submitLogin" value="Логин">
-    <p>Form: {{login}} {{password}}</p>
+    <p>Form: {{login}} {{password}} token: {{token}}</p>
+    <div v-if="error">
+      {{error}}
+    </div>
   </form>
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     name: 'login',
     data () {
       return {
         login: '',
-        password: ''
+        password: '',
+        error: null,
+        token: null
       }
     },
     methods: {
       submitLogin: function () {
         this.login = this.$refs.login_input.value
         this.password = this.$refs.password_input.value
+        const body = {
+          login: this.login,
+          password: this.password
+        }
+        axios.post('/login', body)
+          .then((response) => {
+            this.token = response.data.token
+          })
+          .catch((err) => {
+            this.loading = false
+            this.error = err.toString()
+          })
       }
     }
   }
