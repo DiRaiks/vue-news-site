@@ -5,6 +5,7 @@ if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
 }
 
+const bodyParser = require('body-parser')
 var opn = require('opn')
 var path = require('path')
 var express = require('express')
@@ -13,6 +14,14 @@ var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = (process.env.NODE_ENV === 'testing' || process.env.NODE_ENV === 'production')
   ? require('./webpack.prod.conf')
   : require('./webpack.dev.conf')
+
+
+const registr = require('../routes/registr')
+const newse = require('../routes/newse')
+const login = require('../routes/login')
+const avatar = require('../routes/avatar')
+const newsImages = require('../routes/newsImages')
+
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -41,6 +50,16 @@ compiler.plugin('compilation', function (compilation) {
     cb()
   })
 })
+
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use('/registr', registr)
+app.use('/news', newse)
+app.use('/login', login)
+app.use('/avatar', avatar)
+app.use('/newsImages', newsImages)
 
 // proxy api requests
 Object.keys(proxyTable).forEach(function (context) {
