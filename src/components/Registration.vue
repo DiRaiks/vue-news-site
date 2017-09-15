@@ -31,8 +31,16 @@
         login: '',
         email: '',
         name: '',
-        password: ''
+        password: '',
+        token: null
       }
+    },
+//    watch: {
+//      // в случае изменения маршрута запрашиваем данные вновь
+//      '$route': 'checkToken'
+//    },
+    created () {
+      this.checkToken()
     },
     methods: {
       submitRegistration: function () {
@@ -40,6 +48,12 @@
         this.email = this.$refs.email_input.value
         this.name = this.$refs.name_input.value
         this.password = this.$refs.password_input.value
+      },
+      checkToken: function () {
+        this.token = localStorage.getItem('token')
+        if (this.token) {
+          this.$router.push({ path: '/allnews' })
+        }
       }
     }
   }

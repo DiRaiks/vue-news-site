@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <router-link to="/">Go to Home</router-link>
-    <router-link to="/test">Go to Registration</router-link>
+    <router-link v-if="!token" to="/test" >Go to Registration</router-link>
+    <a href="#" v-else v-on:click="logout" >Logout</a>
     <router-link to="/allnews">Go to News</router-link>
     <router-view></router-view>
   </div>
@@ -9,7 +10,25 @@
 
 <script>
   export default {
-    name: 'app'
+    name: 'app',
+    data () {
+      return {
+        token: null
+      }
+    },
+    watch: {
+      // в случае изменения маршрута запрашиваем данные вновь
+      '$route': 'checkToken'
+    },
+    methods: {
+      logout: function () {
+        localStorage.clear('token')
+        this.token = null
+      },
+      checkToken: function () {
+        this.token = localStorage.getItem('token')
+      }
+    }
   }
 </script>
 

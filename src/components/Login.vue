@@ -1,5 +1,5 @@
 <template>
-  <form >
+  <form>
     <label for="login_login"></label>
     <input ref="login_input" type="text" id="login_login" placeholder="login">
 
@@ -38,6 +38,8 @@
         axios.post('/login', body)
           .then((response) => {
             this.token = response.data.token
+            localStorage.setItem('token', this.token)
+            this.$router.push({ path: '/allnews' })
           })
           .catch((err) => {
             this.loading = false

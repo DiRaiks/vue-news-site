@@ -1,11 +1,12 @@
 <template>
-  <div>
+  <div class="news">
 
-    <div v-for="item in news">
+    <div v-for="item in news" class="one-news">
       <div>Theme: {{item.theme}}</div>
       <div>Tag: {{item.tag}}</div>
       <a href="#">Author: {{item.author}}</a>
       <div>Text: {{item.text}}</div>
+      <img :src="getImgUrl(item.newsImage)">
     </div>
 
   </div>
@@ -15,14 +16,16 @@
 <script>
   export default {
     name: 'one-news',
-    props: ['news']
+    props: ['news'],
 //    data () {
 //      return {
 //      }
 //    },
-//    methods: {
-//
-//    }
+    methods: {
+      getImgUrl (imgPath) {
+        return require('../assets/NewsImages/' + imgPath)
+      }
+    }
   }
 </script>
 
@@ -44,5 +47,16 @@
 
   a {
     color: #42b983;
+    margin: 0;
+  }
+  img {
+    width: 100px;
+  }
+  .news {
+    text-align: left;
+  }
+  .one-news {
+    border: 1px solid black;
+    margin: 0 0 10px 0;
   }
 </style>
