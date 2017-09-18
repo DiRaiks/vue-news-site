@@ -9,12 +9,14 @@
 
     <div v-if="info" class="content">
       login:<input type="text" :value="info.login" readonly>
-      name:<input type="text" :value="info.name" readonly>
-      surname:<input type="text" :value="info.surname" readonly>
+      name:<input type="text" :value="info.name" readonly ref="name">
+      surname:<input type="text" :value="info.surname" ref="surname" readonly>
       email:<input type="text" :value="info.email" readonly>
       password:<input type="password" :value="info.password" readonly>
       <img :src="getImgUrl(info.avatar)">
     </div>
+
+    <add-news :info="fullName"></add-news>
 
   </div>
 </template>
@@ -22,8 +24,10 @@
 <script>
   import jwt from 'jsonwebtoken'
   import axios from 'axios'
+  import AddNews from './AddNews.vue'
 
   export default {
+    components: {AddNews},
     name: 'user-page',
     data () {
       return {
@@ -32,10 +36,15 @@
         loading: null
       }
     },
-//    watch: {
-//      // в случае изменения маршрута запрашиваем данные вновь
-//      '$route': 'checkToken'
-//    },
+    computed: {
+      fullName: function () {
+        if (this.info == null) return null
+        return {
+          author: this.info.name + ' ' + this.info.surname,
+          id: this.info.id
+        }
+      }
+    },
     created () {
       this.getUserFromToken()
     },
