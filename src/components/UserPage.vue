@@ -16,7 +16,9 @@
       <img :src="getImgUrl(info.avatar)">
     </div>
 
-    <add-news :info="fullName"></add-news>
+    <add-news :info="getAuthor"></add-news>
+
+    <view-user-news :info="getAuthor"></view-user-news>
 
   </div>
 </template>
@@ -25,9 +27,12 @@
   import jwt from 'jsonwebtoken'
   import axios from 'axios'
   import AddNews from './AddNews.vue'
+  import ViewUserNews from './ViewUserNews.vue'
 
   export default {
-    components: {AddNews},
+    components: {
+      ViewUserNews,
+      AddNews},
     name: 'user-page',
     data () {
       return {
@@ -37,7 +42,7 @@
       }
     },
     computed: {
-      fullName: function () {
+      getAuthor: function () {
         if (this.info == null) return null
         return {
           author: this.info.name + ' ' + this.info.surname,
