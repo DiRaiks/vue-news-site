@@ -7,7 +7,6 @@
     <input ref="password_input" type="password" id="password_login" placeholder="password">
 
     <input type="submit" v-on:click="submitLogin" value="Логин">
-    <p>Form: {{login}} {{password}} token: {{token}}</p>
     <div v-if="error">
       {{error}}
     </div>
@@ -42,7 +41,6 @@
             this.$router.push({ path: '/allnews' })
           })
           .catch((err) => {
-            this.loading = false
             this.error = err.toString()
           })
       }

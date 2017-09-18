@@ -1,6 +1,5 @@
 <template>
   <div>
-    <login></login>
     <form>
       <label for="login"></label>
       <input ref="login_input" id="login" type="text" placeholder="login">
@@ -11,28 +10,38 @@
       <label for="name"></label>
       <input ref="name_input" id="name" type="text" placeholder="name">
 
+      <label for="surname"></label>
+      <input ref="surname_input" id="surname" type="text" placeholder="surname">
+
       <label for="password"></label>
       <input ref="password_input" id="password" type="password" placeholder="password">
 
       <input type="button" v-on:click="submitRegistration" value="Регистрация">
-      <p>Form: {{login}} {{email}} {{name}} {{password}}</p>
+      <div v-if="error">
+        {{error}}
+      </div>
+      <div v-if="success">
+        Registration Success, Go Login
+      </div>
     </form>
   </div>
 </template>
 
 <script>
-  import Login from './Login.vue'
+  import axios from 'axios'
 
   export default {
-    components: {Login},
     name: 'registration',
     data () {
       return {
         login: '',
         email: '',
         name: '',
+        surname: '',
         password: '',
-        token: null
+        token: null,
+        error: null,
+        success: null
       }
     },
 //    watch: {
@@ -47,7 +56,25 @@
         this.login = this.$refs.login_input.value
         this.email = this.$refs.email_input.value
         this.name = this.$refs.name_input.value
+        this.surname = this.$refs.surname_input.value
         this.password = this.$refs.password_input.value
+        const body = {
+          login: this.login,
+          email: this.email,
+          name: this.name,
+          surname: this.surname,
+          password: this.password
+        }
+        axios.post('/registr', body)
+          .then((response) => {
+//            this.token = response.data.token
+//            localStorage.setItem('token', this.token)
+//            this.$router.push({ path: '/allnews' })
+            this.success = true
+          })
+          .catch((err) => {
+            this.error = err.toString()
+          })
       },
       checkToken: function () {
         this.token = localStorage.getItem('token')
