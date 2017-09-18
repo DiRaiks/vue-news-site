@@ -1,12 +1,21 @@
 <template>
   <div class="news">
 
-    <div v-for="item in news" class="one-news">
+    <div v-for="item in news" class="one-news" :key="item.id">
       <div>Theme: {{item.theme}}</div>
       <div>Tag: {{item.tag}}</div>
       <a href="#">Author: {{item.author}}</a>
       <div>Text: {{item.text}}</div>
       <img :src="getImgUrl(item.newsImage)">
+      <input
+        type="button"
+        v-if="admin"
+        value="DELETE"
+        v-on:click="deleteNews(item.id)">
+    </div>
+
+    <div v-if="error">
+      {{error}}
     </div>
 
   </div>
@@ -14,16 +23,36 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     name: 'one-news',
-    props: ['news'],
-//    data () {
-//      return {
-//      }
-//    },
+    props: ['news', 'admin'],
+    data () {
+      return {
+        error: null,
+        success: null
+      }
+    },
     methods: {
       getImgUrl (imgPath) {
         return require('../assets/NewsImages/' + imgPath)
+      },
+      deleteNews: function (id) {
+        axios.delete('/news/' + id)
+          .then((res) => {
+            this.success = true
+            if (this.success) {
+              for (let i = 0; i < this.news.length; i++) {
+                if (this.news[i].id === id) {
+                  this.news.splice(i, 1)
+                }
+              }
+            }
+          })
+          .catch((err) => {
+            this.error = err.toString()
+          })
       }
     }
   }
@@ -49,12 +78,15 @@
     color: #42b983;
     margin: 0;
   }
+
   img {
     width: 100px;
   }
+
   .news {
     text-align: left;
   }
+
   .one-news {
     border: 1px solid black;
     margin: 0 0 10px 0;

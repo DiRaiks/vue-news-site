@@ -14,7 +14,7 @@
       {{error}}
     </div>
     <div v-else-if="success">
-      {{this.success}}
+      'Success'
     </div>
   </form>
 </template>
@@ -48,7 +48,7 @@
         }
         axios.post('/news/' + this.info.id, body)
           .then((response) => {
-            this.success = 'Success'
+            this.success = true
           })
           .catch((err) => {
             this.error = err.toString()

@@ -26,8 +26,9 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
     destroy(req, res) {
-        return News
-            .findById(req.body.id)
+      console.log('--->123', req.params)
+      return News
+            .findById(req.params.id)
             .then(news => {
                 if (!news) {
                     return res.status(400).send({
