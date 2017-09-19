@@ -4,7 +4,7 @@
     <div v-for="item in news" class="one-news" :key="item.id">
       <div>Theme: {{item.theme}}</div>
       <div>Tag: {{item.tag}}</div>
-      <a href="#">Author: {{item.author}}</a>
+      <a v-on:click="aboutUser(item.authorId)">Author: {{item.author}}</a>
       <div>Text: {{item.text}}</div>
       <img :src="getImgUrl(item.newsImage)">
       <input
@@ -35,6 +35,9 @@
       }
     },
     methods: {
+      aboutUser: function (id) {
+        this.$router.push({ path: '/user/' + id })
+      },
       getImgUrl (imgPath) {
         return require('../assets/NewsImages/' + imgPath)
       },

@@ -4,17 +4,20 @@
     <router-link v-if="!token" to="/test" >Go to Registration/Login</router-link>
     <a href="#" v-else v-on:click="logout" >Logout</a>
     <router-link to="/allnews">Go to News</router-link>
-    <router-link to="/user" v-if="token">Go to User</router-link>
+    <router-link :to="{ path: '/user/' + this.user.id }" v-if="token">Go to User</router-link>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+  import jwt from 'jsonwebtoken'
+
   export default {
     name: 'app',
     data () {
       return {
-        token: null
+        token: null,
+        user: null
       }
     },
     watch: {
@@ -32,6 +35,9 @@
       },
       checkToken: function () {
         this.token = localStorage.getItem('token')
+        if (this.token) {
+          this.user = jwt.verify(this.token, 'somesecretkeyforjsonwebtoken')
+        }
       }
     }
   }

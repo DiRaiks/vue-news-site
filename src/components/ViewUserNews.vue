@@ -5,38 +5,44 @@
       {{error}}
     </div>
 
-    <one-news v-bind:news="post" :admin="true"></one-news>
+    <one-news v-bind:news="post" :admin="admin"></one-news>
 
   </div>
 </template>
 
 <script>
+  import jwt from 'jsonwebtoken'
   import axios from 'axios'
   import OneNews from './OneNews.vue'
-  import jwt from 'jsonwebtoken'
 
   export default {
     components: {OneNews},
     name: 'view-user-news',
-    props: ['info'],
+    props: ['id'],
     data () {
       return {
         loading: null,
         post: null,
-        error: null
+        error: null,
+        admin: null
       }
     },
     created () {
+      const token = localStorage.getItem('token')
+      const user = jwt.verify(token, 'somesecretkeyforjsonwebtoken')
+      if (user.id === +this.id) {
+        this.admin = true
+      } else {
+        this.admin = false
+      }
       // запрашиваем данные когда реактивное представление уже создано
       this.loadNews()
     },
     methods: {
       loadNews () {
-        const token = localStorage.getItem('token')
-        const userId = jwt.verify(token, 'somesecretkeyforjsonwebtoken')
         this.error = this.post = null
         this.loading = true
-        axios.get('/news/' + userId.id)
+        axios.get('/news/' + this.id)
           .then((response) => {
             this.loading = false
             const data = response.data

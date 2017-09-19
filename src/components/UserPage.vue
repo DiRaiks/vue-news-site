@@ -18,13 +18,13 @@
 
     <add-news :info="getAuthor"></add-news>
 
-    <view-user-news :info="getAuthor"></view-user-news>
+    <view-user-news v-if="token" :id="id"></view-user-news>
 
   </div>
 </template>
 
 <script>
-  import jwt from 'jsonwebtoken'
+//  import jwt from 'jsonwebtoken'
   import axios from 'axios'
   import AddNews from './AddNews.vue'
   import ViewUserNews from './ViewUserNews.vue'
@@ -32,14 +32,21 @@
   export default {
     components: {
       ViewUserNews,
-      AddNews},
+      AddNews
+    },
     name: 'user-page',
+    props: ['id'],
     data () {
       return {
         info: null,
         error: null,
-        loading: null
+        loading: null,
+        token: null,
+        userId: null
       }
+    },
+    watch: {
+      'id': 'checkToken'
     },
     computed: {
       getAuthor: function () {
@@ -51,23 +58,23 @@
       }
     },
     created () {
-      this.getUserFromToken()
+      console.log('user-page', this.id)
+      this.checkToken()
     },
     methods: {
       getImgUrl (imgPath) {
         if (imgPath == null) {
           return require('../assets/UserImages/' + 'no-avatar.png')
+        } else if (/http/.test(imgPath)) {
+          return imgPath
         } else {
           return require('../assets/UserImages/' + imgPath)
         }
       },
       getUserFromToken: function () {
-        const token = localStorage.getItem('token')
-        const userId = jwt.verify(token, 'somesecretkeyforjsonwebtoken')
-
         this.error = this.info = null
         this.loading = true
-        axios.get('/login/' + userId.id)
+        axios.get('/login/' + this.id)
           .then((response) => {
             this.loading = false
             const data = response.data
@@ -77,6 +84,14 @@
             this.loading = false
             this.error = err.toString()
           })
+      },
+      checkToken: function () {
+        this.token = localStorage.getItem('token')
+        if (!this.token) {
+          this.$router.push({path: '/test'})
+        } else {
+          this.getUserFromToken()
+        }
       }
     }
   }

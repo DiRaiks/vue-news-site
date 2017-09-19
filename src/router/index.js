@@ -24,10 +24,15 @@ export default new Router({
       name: 'all-news',
       component: AllNews
     },
+    // {
+    //   path: '/user',
+    //   name: 'user-page',
+    //   component: UserPage
+    // },
     {
-      path: '/user',
-      name: 'user-page',
-      component: UserPage
+      path: '/user/:id',
+      components: { default: UserPage },
+      props: { default: true, sidebar: false }
     }
   ]
 })
