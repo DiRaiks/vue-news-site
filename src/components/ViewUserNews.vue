@@ -11,30 +11,21 @@
 </template>
 
 <script>
-  import jwt from 'jsonwebtoken'
   import axios from 'axios'
   import OneNews from './OneNews.vue'
 
   export default {
     components: {OneNews},
     name: 'view-user-news',
-    props: ['id'],
+    props: ['id', 'admin'],
     data () {
       return {
         loading: null,
         post: null,
-        error: null,
-        admin: null
+        error: null
       }
     },
     created () {
-      const token = localStorage.getItem('token')
-      const user = jwt.verify(token, 'somesecretkeyforjsonwebtoken')
-      if (user.id === +this.id) {
-        this.admin = true
-      } else {
-        this.admin = false
-      }
       // запрашиваем данные когда реактивное представление уже создано
       this.loadNews()
     },

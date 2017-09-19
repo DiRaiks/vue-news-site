@@ -16,15 +16,15 @@
       <img :src="getImgUrl(info.avatar)">
     </div>
 
-    <add-news :info="getAuthor"></add-news>
+    <add-news v-if="admin" :info="getAuthor"></add-news>
 
-    <view-user-news v-if="token" :id="id"></view-user-news>
+    <view-user-news :admin="admin" v-if="token" :id="id"></view-user-news>
 
   </div>
 </template>
 
 <script>
-//  import jwt from 'jsonwebtoken'
+  import jwt from 'jsonwebtoken'
   import axios from 'axios'
   import AddNews from './AddNews.vue'
   import ViewUserNews from './ViewUserNews.vue'
@@ -42,7 +42,8 @@
         error: null,
         loading: null,
         token: null,
-        userId: null
+        userId: null,
+        admin: null
       }
     },
     watch: {
@@ -58,7 +59,13 @@
       }
     },
     created () {
-      console.log('user-page', this.id)
+      const token = localStorage.getItem('token')
+      const user = jwt.verify(token, 'somesecretkeyforjsonwebtoken')
+      if (user.id === +this.id || user.id === 0) {
+        this.admin = true
+      } else {
+        this.admin = false
+      }
       this.checkToken()
     },
     methods: {
