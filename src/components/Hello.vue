@@ -34,6 +34,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1, h2 {
+  font-size: 20px;
   font-weight: normal;
 }
 
@@ -47,7 +48,7 @@ li {
   margin: 0 10px;
 }
 
-a {
-  color: #42b983;
-}
+/*a {*/
+  /*color: #42b983;*/
+/*}*/
 </style>
