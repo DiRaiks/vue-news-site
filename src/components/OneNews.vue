@@ -4,7 +4,8 @@
     <div v-for="item in news" class="one-news" :key="item.id">
       <div>Theme: {{item.theme}}</div>
       <div>Tag: {{item.tag}}</div>
-      Author: <router-link :to="{ path: '/user/' + item.authorId }" >{{item.author}}</router-link>
+      Author:
+      <router-link :to="{ path: '/user/' + item.authorId }">{{item.author}}</router-link>
       <div>Text: {{item.text}}</div>
       <img :src="getImgUrl(item.newsImage)">
       <input
@@ -30,8 +31,7 @@
     props: ['news', 'admin'],
     data () {
       return {
-        error: null,
-        success: null
+        error: null
       }
     },
     methods: {
@@ -41,12 +41,9 @@
       deleteNews: function (id) {
         axios.delete('/news/' + id)
           .then((res) => {
-            this.success = true
-            if (this.success) {
-              for (let i = 0; i < this.news.length; i++) {
-                if (this.news[i].id === id) {
-                  this.news.splice(i, 1)
-                }
+            for (let i = 0; i < this.news.length; i++) {
+              if (this.news[i].id === id) {
+                this.news.splice(i, 1)
               }
             }
           })
