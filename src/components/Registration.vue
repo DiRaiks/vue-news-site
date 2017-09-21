@@ -16,7 +16,6 @@
         label="Email"
         v-model="email"
         :rules="emailRules"
-        :counter="10"
         required
       ></v-text-field>
 
@@ -46,7 +45,7 @@
         label="Password"
         v-model="password"
         :rules="passwordRules"
-        :counter="10"
+        :counter="6"
         required
         type="password"
       ></v-text-field>

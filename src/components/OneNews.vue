@@ -11,6 +11,7 @@
         <v-btn
           type="button"
           v-if="admin"
+          class="red"
           v-on:click="deleteNews(item.id)">DELETE</v-btn>
         <v-card>
           <v-card-text >{{item.text}}</v-card-text>

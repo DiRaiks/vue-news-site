@@ -15,7 +15,7 @@
       label="Password"
       v-model="password"
       :rules="passwordRules"
-      :counter="10"
+      :counter="6"
       required
       type="password"
     ></v-text-field>

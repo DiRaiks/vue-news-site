@@ -146,6 +146,7 @@
       logout: function () {
         localStorage.clear('token')
         this.token = null
+        this.checkToken()
       },
       checkToken: function () {
         this.currentPath = this.$router.history.current.name
