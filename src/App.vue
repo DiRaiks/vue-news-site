@@ -85,7 +85,7 @@
     </v-navigation-drawer>
     <v-toolbar dark fixed>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Toolbar</v-toolbar-title>
+      <v-toolbar-title>News</v-toolbar-title>
     </v-toolbar>
     <main>
       <v-container fluid >
