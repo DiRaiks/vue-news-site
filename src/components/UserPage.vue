@@ -1,5 +1,38 @@
 <template>
   <div>
+
+    <v-card height="50px">
+      <v-bottom-nav
+        absolute
+        shift
+        :value="true"
+        :active.sync="e2"
+        :class="{
+        'blue-grey': e2 === 1,
+        'teal': e2 === 2,
+        'brown': e2 === 3,
+        'brown lighten-1': e2 === 4
+      }"
+      >
+        <v-btn dark @click="changeMenu(1)">
+          <span>My Info</span>
+          <v-icon>account_box</v-icon>
+        </v-btn>
+        <v-btn dark @click="changeMenu(2)">
+          <span>Add News</span>
+          <v-icon>note_add</v-icon>
+        </v-btn>
+        <v-btn dark @click="changeMenu(3)">
+          <span>My News</span>
+          <v-icon>book</v-icon>
+        </v-btn>
+        <v-btn dark @click="changeMenu(4)">
+          <span>Change Password</span>
+          <v-icon>loop</v-icon>
+        </v-btn>
+      </v-bottom-nav>
+    </v-card>
+
     <div class="loading" v-if="loading">
       Загрузка...
     </div>
@@ -7,7 +40,7 @@
       {{ error }}
     </div>
 
-    <div v-if="info" class="content">
+    <div v-if="info && active===1" class="content">
       login:<input type="text" :value="info.login" readonly>
       name:<input type="text" :value="info.name" readonly ref="name">
       surname:<input type="text" :value="info.surname" ref="surname" readonly>
@@ -16,9 +49,9 @@
       <img :src="getImgUrl(info.avatar)">
     </div>
 
-    <add-news v-if="admin" :info="getAuthor"></add-news>
+    <add-news v-if="admin && active===2" :info="getAuthor"></add-news>
 
-    <view-user-news :admin="admin" v-if="token" :id="id"></view-user-news>
+    <view-user-news :admin="admin" v-if="token && active ===3" :id="id"></view-user-news>
 
   </div>
 </template>
@@ -38,6 +71,8 @@
     props: ['id'],
     data () {
       return {
+        e2: 0,
+        active: null,
         info: null,
         error: null,
         loading: null,
@@ -59,6 +94,7 @@
       }
     },
     created () {
+      this.active = 1
       const token = localStorage.getItem('token')
       if (token) {
         const user = jwt.verify(token, 'somesecretkeyforjsonwebtoken')
@@ -71,6 +107,9 @@
       this.checkToken()
     },
     methods: {
+      changeMenu (el) {
+        this.active = el
+      },
       getImgUrl (imgPath) {
         if (imgPath == null) {
           return require('../assets/UserImages/' + 'no-avatar.png')

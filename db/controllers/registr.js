@@ -4,7 +4,6 @@ const bcrypt = require('../../node_modules/bcrypt')
 
 module.exports = {
     create(req, res) {
-        console.log('registr post');
         if (req.body.vkId) {
             return Registr
                 .findOne({

@@ -3,66 +3,92 @@
     <v-navigation-drawer
       temporary
       v-model="drawer"
-      light
-      enable-resize-watcher
-      absolute
-      dark
+    absolute
+    dark
+    :mini-variant="mini"
+    overflow
+      disable-route-watcher
     >
-      <v-list dense>
 
-        <v-list-tile @click="goHome">
-          <v-list-tile-action>
-              <v-icon>home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Go to Home</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+    <v-list class="pa-1" v-if="user" >
+      <v-list-tile v-if="mini" @click.stop="mini = !mini">
+        <v-list-tile-action>
+          <v-icon>chevron_right</v-icon>
+        </v-list-tile-action>
+      </v-list-tile>
+      <v-list-tile avatar tag="div">
+        <v-list-tile-avatar v-if="info">
+          <img :src="getImgUrl(info.avatar)"/>
+        </v-list-tile-avatar>
+        <v-list-tile-content v-if="info">
+          <v-list-tile-title>{{this.info.surname}} {{this.info.name}}</v-list-tile-title>
+        </v-list-tile-content>
+        <v-list-tile-action>
+          <v-btn icon @click.stop="mini = !mini">
+            <v-icon>chevron_left</v-icon>
+          </v-btn>
+        </v-list-tile-action>
+      </v-list-tile>
+    </v-list>
 
-        <v-list-tile v-if="!token" @click="goRegistr">
-          <v-list-tile-action>
-            <v-icon>home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Go to Registration/Login</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
 
-        <v-list-tile v-else @click="logout">
-          <v-list-tile-action>
-            <v-icon>home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Logout</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+    <v-list dense>
 
-        <v-list-tile @click="goNews">
-          <v-list-tile-action>
-            <v-icon>home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Go to News</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+      <v-list-tile @click="goHome">
+        <v-list-tile-action>
+          <v-icon>home</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Go to Home</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
 
-        <v-list-tile v-if="token" @click="goUser">
-          <v-list-tile-action>
-            <v-icon>home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>Go to User</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+      <v-list-tile v-if="!token" @click="goRegistr">
+        <v-list-tile-action>
+          <v-icon>
+            input
+          </v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Go to Registration/Login</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
 
-      </v-list>
+      <v-list-tile v-else @click="logout">
+        <v-list-tile-action>
+          <v-icon>clear</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Logout</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+      <v-list-tile @click="goNews">
+        <v-list-tile-action>
+          <v-icon>book</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Go to News</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+      <v-list-tile v-if="token" @click="goUser">
+        <v-list-tile-action>
+          <v-icon>account_box</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>Go to User</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+    </v-list>
     </v-navigation-drawer>
-    <v-toolbar  dark fixed>
+    <v-toolbar dark fixed>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>Toolbar</v-toolbar-title>
     </v-toolbar>
     <main>
-      <v-container fluid>
+      <v-container fluid >
         <!--v-router-->
         <router-view></router-view>
       </v-container>
@@ -81,6 +107,7 @@
 
 <script>
   import jwt from 'jsonwebtoken'
+  import axios from 'axios'
 
   export default {
     name: 'app',
@@ -88,7 +115,10 @@
       return {
         token: null,
         user: null,
-        drawer: true
+        drawer: null,
+        mini: false,
+        right: null,
+        info: null
       }
     },
     watch: {
@@ -101,16 +131,16 @@
     },
     methods: {
       goHome () {
-        this.$router.push({ path: '/' })
+        this.$router.push({path: '/'})
       },
       goRegistr () {
-        this.$router.push({ path: '/test' })
+        this.$router.push({path: '/test'})
       },
       goNews () {
-        this.$router.push({ path: '/allnews' })
+        this.$router.push({path: '/allnews'})
       },
       goUser () {
-        this.$router.push({ path: '/user/' + this.user.id })
+        this.$router.push({path: '/user/' + this.user.id})
       },
       logout: function () {
         localStorage.clear('token')
@@ -120,6 +150,26 @@
         this.token = localStorage.getItem('token')
         if (this.token) {
           this.user = jwt.verify(this.token, 'somesecretkeyforjsonwebtoken')
+          axios.get('/login/' + this.user.id)
+            .then((response) => {
+              this.loading = false
+              const data = response.data
+              this.info = data
+            })
+            .catch((err) => {
+              this.error = err.toString()
+            })
+        } else {
+          this.user = null
+        }
+      },
+      getImgUrl (imgPath) {
+        if (imgPath == null) {
+          return require('./assets/UserImages/' + 'no-avatar.png')
+        } else if (/http/.test(imgPath)) {
+          return imgPath
+        } else {
+          return require('./assets/UserImages/' + imgPath)
         }
       }
     }
@@ -128,12 +178,12 @@
 
 <style>
   /*#app {*/
-    /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
-    /*-webkit-font-smoothing: antialiased;*/
-    /*-moz-osx-font-smoothing: grayscale;*/
-    /*text-align: center;*/
-    /*color: #2c3e50;*/
-    /*margin-top: 60px;*/
+  /*font-family: 'Avenir', Helvetica, Arial, sans-serif;*/
+  /*-webkit-font-smoothing: antialiased;*/
+  /*-moz-osx-font-smoothing: grayscale;*/
+  /*text-align: center;*/
+  /*color: #2c3e50;*/
+  /*margin-top: 60px;*/
   /*}*/
 
   /*.router-link-exact-active {*/

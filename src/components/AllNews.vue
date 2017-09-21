@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="loading" v-if="loading">
-      Загрузка...
+      <v-progress-circular indeterminate v-bind:size="100" class="primary--text"></v-progress-circular>
     </div>
     <div v-if="error" class="error">
       {{ error }}
@@ -60,22 +60,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  /*h1, h2 {*/
-    /*font-weight: normal;*/
-  /*}*/
-
-  /*ul {*/
-    /*list-style-type: none;*/
-    /*padding: 0;*/
-  /*}*/
-
-  /*li {*/
-    /*display: inline-block;*/
-    /*margin: 0 10px;*/
-  /*}*/
-
-  /*a {*/
-    /*color: #42b983;*/
-  /*}*/
+  .loading {
+    text-align: center
+  }
+  .progress-circular {
+    margin: 1rem
+  }
 </style>
 

@@ -2,7 +2,7 @@
   <div>
     <registration v-if="!login"></registration>
     <login v-else></login>
-    <input type="button" :value="valueButton" v-on:click="changeButton">
+    <v-btn @click="changeButton" :class="{cyan: true}">{{valueButton}}</v-btn>
   </div>
 </template>
 

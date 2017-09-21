@@ -45,20 +45,30 @@
       <v-text-field
         label="Password"
         v-model="password"
-        :rules="nameRules"
+        :rules="passwordRules"
         :counter="10"
         required
+        type="password"
       ></v-text-field>
 
       <!--<input type="button" v-on:click="submitRegistration" value="Регистрация">-->
-      <v-btn @click="submitRegistration" :class="{ green: valid, red: !valid }">submit</v-btn>
+      <v-btn
+        @click="submitRegistration"
+
+        :class="{ green: valid, red: !valid }"
+        secondary
+        :loading="loading"
+        :disabled="loading || !valid"
+      >
+        submit
+      </v-btn>
       <v-btn @click="clear">clear</v-btn>
-      <div v-if="error">
+      <v-alert error value="error" v-if="error">
         {{error}}
-      </div>
-      <div v-if="success">
+      </v-alert>
+      <v-alert success v-if="success" value="true">
         Registration Success, Go Login
-      </div>
+      </v-alert>
     </v-form>
 </template>
 
@@ -69,10 +79,16 @@
     name: 'registration',
     data () {
       return {
+        loader: null,
+        loading: false,
         valid: false,
         nameRules: [
           (v) => !!v || 'Name is required',
           (v) => v && v.length <= 10 || 'Name must be less than 10 characters'
+        ],
+        passwordRules: [
+          (v) => !!v || 'Password is required',
+          (v) => v && v.length >= 6 || 'Password must be longer than 6 characters'
         ],
         login: '',
         email: '',
@@ -100,11 +116,12 @@
         this.$refs.form.reset()
       },
       submitRegistration: function () {
-//        this.login = this.$refs.form.login.value
-//        this.email = this.$refs.email_input.value
-//        this.name = this.$refs.name_input.value
-//        this.surname = this.$refs.surname_input.value
-//        this.password = this.$refs.password_input.value
+        /* loader */
+        this.loader = 'loading'
+        const l = this.loader
+        this[l] = !this[l]
+        /**/
+
         const body = {
           login: this.login,
           email: this.email,
@@ -118,10 +135,13 @@
 //            localStorage.setItem('token', this.token)
 //            this.$router.push({ path: '/allnews' })
             this.success = true
+            this[l] = false
           })
           .catch((err) => {
             this.error = err.toString()
+            this[l] = false
           })
+        this.loader = null
       },
       checkToken: function () {
         this.token = localStorage.getItem('token')

@@ -1,22 +1,37 @@
 <template>
-  <form>
-    <label for="add_tag"></label>
-    <input ref="tag" type="text" id="add_tag" placeholder="tag">
+  <div>
 
-    <label for="add_theme"></label>
-    <input ref="theme" type="text" id="add_theme" placeholder="theme">
+    <v-card dark>
+      <v-container grid-list-md>
+        <v-layout row wrap>
+          <v-flex xs12>
+            <div class="body-2 white--text">Add News</div>
+          </v-flex>
+          <v-flex xs12 sm6>
+            <v-text-field box dark label="Theme" v-model="theme"></v-text-field>
+          </v-flex>
+          <v-flex xs12 sm6>
+            <v-text-field box dark label="Tags" v-model="tag"></v-text-field>
+          </v-flex>
+          <v-flex xs12>
+            <v-text-field box dark multi-line label="Text" v-model="text"></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-btn
+          :disabled="valid"
+          @click="addNews">
+          Add
+        </v-btn>
+        <v-alert error value="error" v-if="error">
+          {{error}}
+        </v-alert>
+        <v-alert success v-if="success" value="true">
+          Success add
+        </v-alert>
+      </v-container>
+    </v-card>
 
-    <label for="add_text"></label>
-    <textarea ref="text" type="text" id="add_text" placeholder="text"></textarea>
-
-    <input type="submit" v-on:click="addNews" value="Add">
-    <div v-if="error">
-      {{error}}
-    </div>
-    <div v-else-if="success">
-      'Success'
-    </div>
-  </form>
+  </div>
 </template>
 
 <script>
@@ -32,14 +47,12 @@
         theme: null,
         text: null,
         error: null,
-        success: null
+        success: null,
+        valid: false
       }
     },
     methods: {
       addNews: function () {
-        this.tag = this.$refs.tag.value
-        this.theme = this.$refs.theme.value
-        this.text = this.$refs.text.value
         const body = {
           tag: this.tag,
           theme: this.theme,
