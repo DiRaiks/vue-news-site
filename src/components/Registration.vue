@@ -60,9 +60,13 @@
         :loading="loading"
         :disabled="loading || !valid"
       >
-        submit
+        Submit
+        <v-icon dark right>check_circle</v-icon>
       </v-btn>
-      <v-btn @click="clear">clear</v-btn>
+      <v-btn @click="clear">
+        clear
+        <v-icon dark right>clear</v-icon>
+      </v-btn>
       <v-alert error value="error" v-if="error">
         {{error}}
       </v-alert>

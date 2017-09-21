@@ -31,6 +31,7 @@ export default new Router({
     // },
     {
       path: '/user/:id',
+      name: 'user',
       components: { default: UserPage },
       props: { default: true, sidebar: false }
     }

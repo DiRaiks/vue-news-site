@@ -26,7 +26,11 @@
       secondary
       :loading="loading"
       :disabled="loading || !valid"
-      @click="submitLogin">Логин</v-btn>
+      @click="submitLogin"
+    >
+      Логин
+      <v-icon dark right>check_circle</v-icon>
+    </v-btn>
     <v-alert error value="error" v-if="error">
       {{error}}
     </v-alert>

@@ -1,9 +1,72 @@
 <template>
   <div>
 
-    <v-card height="50px">
+    <v-card>
+
+      <div v-if="info && active===1" class="content">
+        <img :src="getImgUrl(info.avatar)">
+
+        <v-list two-line>
+          <v-list-tile @click="">
+            <v-list-tile-action>
+              <v-icon class="indigo--text">L</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{info.login}}</v-list-tile-title>
+              <v-list-tile-sub-title>Login</v-list-tile-sub-title>
+            </v-list-tile-content>
+            <v-list-tile-action>
+              <v-icon dark>chat</v-icon>
+            </v-list-tile-action>
+          </v-list-tile>
+
+          <v-divider inset></v-divider>
+
+          <v-list-tile @click="">
+            <v-list-tile-action>
+              <v-icon class="indigo--text">N</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{info.name}}</v-list-tile-title>
+              <v-list-tile-sub-title>Name</v-list-tile-sub-title>
+            </v-list-tile-content>
+            <v-list-tile-action>
+              <v-icon dark>chat</v-icon>
+            </v-list-tile-action>
+          </v-list-tile>
+
+          <v-divider inset></v-divider>
+
+          <v-list-tile @click="">
+            <v-list-tile-action>
+              <v-icon class="indigo--text">S</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{info.surname}}</v-list-tile-title>
+              <v-list-tile-sub-title>Surname</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+          <v-divider inset></v-divider>
+
+          <v-list-tile @click="">
+            <v-list-tile-action>
+              <v-icon class="indigo--text">mail</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{info.email}}</v-list-tile-title>
+              <v-list-tile-sub-title>Mail</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+
+        </v-list>
+      </div>
+
+      <add-news v-if="admin && active===2" :info="getAuthor"></add-news>
+
+      <view-user-news :admin="admin" v-if="token && active ===3" :id="id"></view-user-news>
+
       <v-bottom-nav
-        absolute
         shift
         :value="true"
         :active.sync="e2"
@@ -15,18 +78,18 @@
       }"
       >
         <v-btn dark @click="changeMenu(1)">
-          <span>My Info</span>
+          <span>Info</span>
           <v-icon>account_box</v-icon>
         </v-btn>
-        <v-btn dark @click="changeMenu(2)">
+        <v-btn dark @click="changeMenu(2)" v-if="admin">
           <span>Add News</span>
           <v-icon>note_add</v-icon>
         </v-btn>
         <v-btn dark @click="changeMenu(3)">
-          <span>My News</span>
+          <span>News</span>
           <v-icon>book</v-icon>
         </v-btn>
-        <v-btn dark @click="changeMenu(4)">
+        <v-btn dark @click="changeMenu(4)" v-if="admin">
           <span>Change Password</span>
           <v-icon>loop</v-icon>
         </v-btn>
@@ -40,18 +103,6 @@
       {{ error }}
     </div>
 
-    <div v-if="info && active===1" class="content">
-      login:<input type="text" :value="info.login" readonly>
-      name:<input type="text" :value="info.name" readonly ref="name">
-      surname:<input type="text" :value="info.surname" ref="surname" readonly>
-      email:<input type="text" :value="info.email" readonly>
-      password:<input type="password" :value="info.password" readonly>
-      <img :src="getImgUrl(info.avatar)">
-    </div>
-
-    <add-news v-if="admin && active===2" :info="getAuthor"></add-news>
-
-    <view-user-news :admin="admin" v-if="token && active ===3" :id="id"></view-user-news>
 
   </div>
 </template>
@@ -147,21 +198,24 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .bottom-nav {
+    width: 98%
+  }
   /*h1, h2 {*/
-    /*font-weight: normal;*/
+  /*font-weight: normal;*/
   /*}*/
 
   /*ul {*/
-    /*list-style-type: none;*/
-    /*padding: 0;*/
+  /*list-style-type: none;*/
+  /*padding: 0;*/
   /*}*/
 
   /*li {*/
-    /*display: inline-block;*/
-    /*margin: 0 10px;*/
+  /*display: inline-block;*/
+  /*margin: 0 10px;*/
   /*}*/
 
   /*a {*/
-    /*color: #42b983;*/
+  /*color: #42b983;*/
   /*}*/
 </style>

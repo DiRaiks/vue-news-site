@@ -19,7 +19,9 @@
         </v-layout>
         <v-btn
           :disabled="valid"
-          @click="addNews">
+          @click="addNews"
+        class="cyan"
+        >
           Add
         </v-btn>
         <v-alert error value="error" v-if="error">

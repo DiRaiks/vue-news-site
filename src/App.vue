@@ -93,7 +93,7 @@
         <router-view></router-view>
       </v-container>
     </main>
-    <v-footer dark>
+    <v-footer dark v-if="currentPath!='user'">
       <span class="white--text">© 2017</span>
     </v-footer>
   </v-app>
@@ -118,7 +118,8 @@
         drawer: null,
         mini: false,
         right: null,
-        info: null
+        info: null,
+        currentPath: null
       }
     },
     watch: {
@@ -147,6 +148,7 @@
         this.token = null
       },
       checkToken: function () {
+        this.currentPath = this.$router.history.current.name
         this.token = localStorage.getItem('token')
         if (this.token) {
           this.user = jwt.verify(this.token, 'somesecretkeyforjsonwebtoken')
