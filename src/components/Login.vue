@@ -27,6 +27,7 @@
       :loading="loading"
       :disabled="loading || !valid"
       @click="submitLogin"
+      :class="{ green: valid }"
     >
       Логин
       <v-icon dark right>check_circle</v-icon>
@@ -84,6 +85,7 @@
             this.$router.push({path: '/allnews'})
             this.success = true
             this[l] = false
+            this.error = null
           })
           .catch((err) => {
             this.error = err.toString()

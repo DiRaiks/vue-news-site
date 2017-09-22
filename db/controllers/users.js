@@ -139,6 +139,7 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
     editUser(req, res) {
+      console.log(req.body)
         return Login
             .findById(req.params.id)
             .then(user => {
@@ -146,11 +147,7 @@ module.exports = {
                     if(bcrypt.compareSync(req.body.password, user.password)) {
                         return user
                             .update({
-                                login: req.body.login,
-                                name: req.body.name,
-                                surname: req.body.surname,
                                 password: bcrypt.hashSync(req.body.newPassword, 10),
-                                email: req.body.email
                             })
                             .then(() => res.status(200).send(user))
                             .catch(error => res.status(400).send(error))

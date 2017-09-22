@@ -66,6 +66,8 @@
 
       <view-user-news :admin="admin" v-if="token && active ===3" :id="id"></view-user-news>
 
+      <change-pass v-if="admin && active ===4" :id="id"></change-pass>
+
       <v-bottom-nav
         shift
         :value="true"
@@ -112,9 +114,11 @@
   import axios from 'axios'
   import AddNews from './AddNews.vue'
   import ViewUserNews from './ViewUserNews.vue'
+  import ChangePass from './ChangePass.vue'
 
   export default {
     components: {
+      ChangePass,
       ViewUserNews,
       AddNews
     },

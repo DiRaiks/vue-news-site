@@ -20,20 +20,6 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
 
-    <!--<div v-for="item in news" class="one-news" :key="item.id">-->
-      <!--<div>Theme: {{item.theme}}</div>-->
-      <!--<div>Tag: {{item.tag}}</div>-->
-      <!--Author:-->
-      <!--<router-link :to="{ path: '/user/' + item.authorId }">{{item.author}}</router-link>-->
-      <!--<div>Text: {{item.text}}</div>-->
-      <!--<img :src="getImgUrl(item.newsImage)">-->
-      <!--<input-->
-        <!--type="button"-->
-        <!--v-if="admin"-->
-        <!--value="DELETE"-->
-        <!--v-on:click="deleteNews(item.id)">-->
-    <!--</div>-->
-
     <div v-if="error">
       {{error}}
     </div>

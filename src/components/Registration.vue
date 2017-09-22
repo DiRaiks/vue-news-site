@@ -139,6 +139,7 @@
 //            this.$router.push({ path: '/allnews' })
             this.success = true
             this[l] = false
+            this.error = null
           })
           .catch((err) => {
             this.error = err.toString()
