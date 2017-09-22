@@ -95,7 +95,6 @@
         }
         axios.put('/login/' + this.id, body)
           .then((res) => {
-            console.log(res)
             this.success = true
             this[l] = false
             this.error = null

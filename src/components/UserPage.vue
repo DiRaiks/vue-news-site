@@ -6,60 +6,129 @@
       <div v-if="info && active===1" class="content">
         <img :src="getImgUrl(info.avatar)">
 
-        <v-list two-line>
-          <v-list-tile @click="">
-            <v-list-tile-action>
-              <v-icon class="indigo--text">L</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{info.login}}</v-list-tile-title>
-              <v-list-tile-sub-title>Login</v-list-tile-sub-title>
-            </v-list-tile-content>
-            <v-list-tile-action>
-              <v-icon dark>chat</v-icon>
-            </v-list-tile-action>
-          </v-list-tile>
+        <v-form v-model="valid" ref="form">
+          <v-list two-line>
+            <v-list-tile @click="editInfo(1)">
+              <v-list-tile-action>
+                <v-icon class="indigo--text">L</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content v-show="editLogin">
+                <v-text-field
+                  label="Login"
+                  v-model="info.login"
+                  :rules="nameRules"
+                  :counter="10"
+                  required
+                ></v-text-field>
+              </v-list-tile-content>
+              <v-list-tile-content v-if="!editLogin">
+                <v-list-tile-title>{{info.login}}</v-list-tile-title>
+                <v-list-tile-sub-title>Login</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-icon dark>edit</v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
 
-          <v-divider inset></v-divider>
+            <v-divider inset></v-divider>
 
-          <v-list-tile @click="">
-            <v-list-tile-action>
-              <v-icon class="indigo--text">N</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{info.name}}</v-list-tile-title>
-              <v-list-tile-sub-title>Name</v-list-tile-sub-title>
-            </v-list-tile-content>
-            <v-list-tile-action>
-              <v-icon dark>chat</v-icon>
-            </v-list-tile-action>
-          </v-list-tile>
+            <v-list-tile @click="editInfo(2)">
+              <v-list-tile-action>
+                <v-icon class="indigo--text">N</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content v-show="editName">
+                <v-text-field
+                  label="Name"
+                  v-model="info.name"
+                  :rules="nameRules"
+                  :counter="10"
+                  required
+                ></v-text-field>
+              </v-list-tile-content>
+              <v-list-tile-content v-if="!editName">
+                <v-list-tile-title>{{info.name}}</v-list-tile-title>
+                <v-list-tile-sub-title>Name</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-icon dark>edit</v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
 
-          <v-divider inset></v-divider>
+            <v-divider inset></v-divider>
 
-          <v-list-tile @click="">
-            <v-list-tile-action>
-              <v-icon class="indigo--text">S</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{info.surname}}</v-list-tile-title>
-              <v-list-tile-sub-title>Surname</v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
+            <v-list-tile @click="editInfo(3)">
+              <v-list-tile-action>
+                <v-icon class="indigo--text">S</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content v-show="editSurname">
+                <v-text-field
+                  label="Surname"
+                  v-model="info.surname"
+                  :rules="nameRules"
+                  :counter="10"
+                  required
+                ></v-text-field>
+              </v-list-tile-content>
+              <v-list-tile-content v-if="!editSurname">
+                <v-list-tile-title>{{info.surname}}</v-list-tile-title>
+                <v-list-tile-sub-title>Surname</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-icon dark>edit</v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
 
-          <v-divider inset></v-divider>
+            <v-divider inset></v-divider>
 
-          <v-list-tile @click="">
-            <v-list-tile-action>
-              <v-icon class="indigo--text">mail</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{info.email}}</v-list-tile-title>
-              <v-list-tile-sub-title>Mail</v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
+            <v-list-tile @click="editInfo(4)">
+              <v-list-tile-action>
+                <v-icon class="indigo--text">mail</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content v-show="editEmail">
+                <v-text-field
+                  label="Login"
+                  v-model="info.email"
+                  :rules="emailRules"
+                  :counter="10"
+                  required
+                ></v-text-field>
+              </v-list-tile-content>
+              <v-list-tile-content v-if="!editEmail">
+                <v-list-tile-title>{{info.email}}</v-list-tile-title>
+                <v-list-tile-sub-title>Mail</v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-icon dark>edit</v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
 
-        </v-list>
+            <v-btn
+              secondary
+              :loading="loading"
+              :disabled="loading || !valid"
+              @click="saveChange"
+              :class="{ green: valid }"
+            >
+              Save
+              <v-icon dark right>check_circle</v-icon>
+            </v-btn>
+            <v-btn
+              secondary
+              @click="cancelInfo"
+              class="red"
+            >
+              Cancel
+              <v-icon dark right>cancel</v-icon>
+            </v-btn>
+
+          </v-list>
+          <v-alert error value="error" v-if="error">
+            {{error}}
+          </v-alert>
+          <v-alert success v-if="success" value="true">
+            Change Success
+          </v-alert>
+        </v-form>
       </div>
 
       <add-news v-if="admin && active===2" :info="getAuthor"></add-news>
@@ -126,14 +195,29 @@
     props: ['id'],
     data () {
       return {
+        success: null,
         e2: 0,
         active: null,
         info: null,
         error: null,
-        loading: null,
+        loading: false,
+        loader: null,
         token: null,
         userId: null,
-        admin: null
+        admin: null,
+        editLogin: null,
+        editName: null,
+        editSurname: null,
+        editEmail: null,
+        valid: false,
+        emailRules: [
+          (v) => !!v || 'E-mail is required',
+          (v) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail must be valid'
+        ],
+        nameRules: [
+          (v) => !!v || 'Name is required',
+          (v) => v && v.length <= 10 || 'Name must be less than 10 characters'
+        ]
       }
     },
     watch: {
@@ -162,6 +246,48 @@
       this.checkToken()
     },
     methods: {
+      saveChange () {
+        /* loader */
+        this.loader = 'loading'
+        const l = this.loader
+        this[l] = !this[l]
+        /**/
+
+        const body = {
+          login: this.info.login,
+          name: this.info.name,
+          surname: this.info.surname,
+          email: this.info.email,
+          newPassword: 0
+        }
+
+        axios.put('/login/' + this.id, body)
+          .then((res) => {
+            this.success = true
+            this[l] = false
+            this.error = null
+          })
+          .catch((err) => {
+            this.error = err.toString()
+            this[l] = false
+          })
+        this.loader = null
+      },
+      cancelInfo () {
+        this.editLogin = false
+        this.editName = false
+        this.editSurname = false
+        this.editEmail = false
+      },
+      editInfo (num) {
+        this.editLogin = false
+        this.editName = false
+        this.editSurname = false
+        this.editEmail = false
+        num === 1 ? this.editLogin = true : num === 2 ? this.editName = true
+          : num === 3 ? this.editSurname = true : num === 4 ? this.editEmail = true
+            : this.editEmail = false
+      },
       changeMenu (el) {
         this.active = el
       },
@@ -205,6 +331,7 @@
   .bottom-nav {
     width: 98%
   }
+
   /*h1, h2 {*/
   /*font-weight: normal;*/
   /*}*/
