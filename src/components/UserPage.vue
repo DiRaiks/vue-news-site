@@ -4,7 +4,14 @@
     <v-card>
 
       <div v-if="info && active===1" class="content">
-        <img :src="getImgUrl(info.avatar)">
+        <v-avatar
+          :tile="true"
+          size="200px"
+        >
+          <img :src="getImgUrl(info.avatar)">
+        </v-avatar>
+
+        <upload-img :id="id"></upload-img>
 
         <v-form v-model="valid" ref="form">
           <v-list two-line>
@@ -105,7 +112,7 @@
             <v-btn
               secondary
               :loading="loading"
-              :disabled="loading || !valid"
+              :disabled="loading || !valid || !change"
               @click="saveChange"
               :class="{ green: valid }"
             >
@@ -184,9 +191,11 @@
   import AddNews from './AddNews.vue'
   import ViewUserNews from './ViewUserNews.vue'
   import ChangePass from './ChangePass.vue'
+  import UploadImg from './UploadImg.vue'
 
   export default {
     components: {
+      UploadImg,
       ChangePass,
       ViewUserNews,
       AddNews
@@ -195,6 +204,7 @@
     props: ['id'],
     data () {
       return {
+        change: false,
         success: null,
         e2: 0,
         active: null,
@@ -274,12 +284,14 @@
         this.loader = null
       },
       cancelInfo () {
+        this.change = false
         this.editLogin = false
         this.editName = false
         this.editSurname = false
         this.editEmail = false
       },
       editInfo (num) {
+        this.change = true
         this.editLogin = false
         this.editName = false
         this.editSurname = false
@@ -330,6 +342,27 @@
 <style scoped>
   .bottom-nav {
     width: 98%
+  }
+
+  .jbtn-file {
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .jbtn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    cursor: inherit;
+    display: block;
   }
 
   /*h1, h2 {*/

@@ -31,8 +31,7 @@
       </v-list-tile>
     </v-list>
 
-
-    <v-list dense>
+    <v-list dense two-line>
 
       <v-list-tile @click="goHome">
         <v-list-tile-action>
@@ -42,6 +41,8 @@
           <v-list-tile-title>Go to Home</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
+
+      <v-divider inset></v-divider>
 
       <v-list-tile v-if="!token" @click="goRegistr">
         <v-list-tile-action>
@@ -63,6 +64,8 @@
         </v-list-tile-content>
       </v-list-tile>
 
+      <v-divider inset></v-divider>
+
       <v-list-tile @click="goNews">
         <v-list-tile-action>
           <v-icon>book</v-icon>
@@ -71,6 +74,8 @@
           <v-list-tile-title>Go to News</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
+
+      <v-divider inset></v-divider>
 
       <v-list-tile v-if="token" @click="goUser">
         <v-list-tile-action>

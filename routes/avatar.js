@@ -8,7 +8,7 @@ const Login = require('../db/models').Author;
 //
 //
 const storage = multer.diskStorage({
-    destination: '../../UserImages',
+    destination: 'src/assets/UserImages',
     filename(req, file, cb) {
         cb(null, `${new Date()}+${file.originalname}`);
     },

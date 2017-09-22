@@ -139,7 +139,6 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
     editUser(req, res) {
-      console.log(req.body)
         return Login
             .findById(req.params.id)
             .then(user => {

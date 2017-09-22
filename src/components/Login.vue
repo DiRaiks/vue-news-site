@@ -1,4 +1,5 @@
 <template>
+  <div>
   <v-form v-model="valid" ref="form">
 
     <v-text-field
@@ -32,6 +33,7 @@
       Логин
       <v-icon dark right>check_circle</v-icon>
     </v-btn>
+
     <v-alert error value="error" v-if="error">
       {{error}}
     </v-alert>
@@ -39,6 +41,10 @@
       Registration Success, Go Login
     </v-alert>
   </v-form>
+
+
+  </div>
+
 </template>
 
 <script>
