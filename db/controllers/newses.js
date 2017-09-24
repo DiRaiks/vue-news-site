@@ -2,7 +2,6 @@ const News = require('../models').Newses;
 
 module.exports = {
     create(req, res) {
-        console.log('--->', req.params.authorId)
         return News
             .create({
                 tag: req.body.tag,
@@ -26,7 +25,6 @@ module.exports = {
             .catch(error => res.status(400).send(error));
     },
     destroy(req, res) {
-      console.log('--->123', req.params)
       return News
             .findById(req.params.id)
             .then(news => {

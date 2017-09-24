@@ -122,7 +122,6 @@ module.exports = {
     },
 
     infoUser(req, res) {
-        console.log(req.params)
         return Login
             .findById(req.params.id)
             .then(user => res.status(200).send(user))
