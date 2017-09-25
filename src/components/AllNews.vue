@@ -37,6 +37,14 @@
     watch: {
       // в случае изменения маршрута запрашиваем данные вновь
       '$route': 'loadNews'
+//      page () {
+//        console.log(this.page)
+//        this.newPost = this.post.slice((this.page - 1) * this.items, this.page * this.items)
+//      },
+//      post () {
+//        this.pages = Math.ceil(this.post.length / this.items)
+//        this.newPost = this.post.slice((this.page - 1) * this.items, this.page * this.items)
+//      }
     },
     methods: {
       loadNews () {

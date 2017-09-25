@@ -1,7 +1,7 @@
 <template>
   <div class="news">
     <v-expansion-panel>
-      <v-expansion-panel-content v-for="item in news" :key="item.id">
+      <v-expansion-panel-content v-for="item in newNews" :key="item.id">
         <div slot="header">
           <div>Theme: {{item.theme}}</div>
           <div>Tag: {{item.tag}}</div>
@@ -20,6 +20,10 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
 
+    <div class="text-xs-center">
+      <v-pagination :length="pages" v-model="page" :total-visible="7"></v-pagination>
+    </div>
+
     <div v-if="error">
       {{error}}
     </div>
@@ -36,7 +40,21 @@
     props: ['news', 'admin'],
     data () {
       return {
-        error: null
+        error: null,
+        page: 1,
+        pages: 10,
+        items: 5,
+        newNews: null
+      }
+    },
+    created () {
+      this.pages = Math.ceil(this.news.length / this.items)
+      this.newNews = this.news.slice((this.page - 1) * this.items, this.page * this.items)
+    },
+    watch: {
+      page () {
+        this.newNews = this.news.slice((this.page - 1) * this.items, this.page * this.items)
+        this.pages = Math.ceil(this.news.length / this.items)
       }
     },
     methods: {

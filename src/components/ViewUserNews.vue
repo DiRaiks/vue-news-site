@@ -5,7 +5,7 @@
       {{error}}
     </div>
 
-    <one-news v-bind:news="post" :admin="admin"></one-news>
+    <one-news v-if="post" v-bind:news="post" :admin="admin"></one-news>
 
   </div>
 </template>
