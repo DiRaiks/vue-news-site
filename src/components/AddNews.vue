@@ -24,6 +24,7 @@
         >
           Add
         </v-btn>
+        <upload-img></upload-img>
         <v-alert error value="error" v-if="error">
           {{error}}
         </v-alert>
@@ -38,8 +39,10 @@
 
 <script>
   import axios from 'axios'
+  import UploadImg from './UploadImg.vue'
 
   export default {
+    components: {UploadImg},
     name: 'add-news',
     props: ['info'],
     data () {

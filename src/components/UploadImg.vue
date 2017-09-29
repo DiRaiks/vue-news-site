@@ -19,14 +19,14 @@
       >
         Upload
       </v-btn>
-      <v-avatar
-        :tile="true"
-        size="200px"
-        v-if="src"
-      >
-        <img :src="src">
-      </v-avatar>
     </div>
+    <v-avatar
+      :tile="true"
+      size="200px"
+      v-if="src"
+    >
+      <img :src="src">
+    </v-avatar>
   </div>
 
 </template>
