@@ -11,7 +11,7 @@
           <img :src="getImgUrl(info.avatar)">
         </v-avatar>
 
-        <upload-img :id="id"></upload-img>
+        <upload-img :id="id" :avatar="true"></upload-img>
 
         <v-form v-model="valid" ref="form">
           <v-list two-line>
@@ -341,7 +341,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .bottom-nav {
-    width: 98%
+    width: 98%;
   }
 
   .jbtn-file {

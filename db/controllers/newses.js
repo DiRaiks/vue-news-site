@@ -1,8 +1,14 @@
 const News = require('../models').Newses;
 
+
 module.exports = {
     create(req, res) {
-        console.log('--->', req.params.authorId)
+      let filename = '';
+      if(req.file) {
+        filename = req.file.filename
+      } else {
+        filename = 'no-news.png'
+      }
         return News
             .create({
                 tag: req.body.tag,
@@ -10,7 +16,7 @@ module.exports = {
                 author: req.body.author,
                 text: req.body.text,
                 authorId: req.params.authorId,
-                newsImage: 'no-news.png'
+                newsImage: filename
             })
             .then(news => res.status(201).send(news))
             .catch(error => res.status(400).send(error));

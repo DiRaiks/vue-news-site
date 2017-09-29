@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const axios = require('axios');
-const fs = require('fs');
 const path = require('path')
 
 
@@ -28,10 +26,6 @@ const upload = multer({
 });
 
 router.post('/', upload.single('file'), (req, res) => {
-
-    console.log('req--', JSON.stringify(req.file));
-    console.log('req--', req.file);
-    console.log('req__e--', req.body);
 
     const file = req.file;
 
